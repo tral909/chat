@@ -19,12 +19,20 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+}
+
+// -parameters добавляется, но десериализация не проходит
+compileJava {
+	//options.encoding = 'UTF-8'
+	//options.compilerArgs += ['-parameters']
+	print options.compilerArgs
 }
 
 test {
