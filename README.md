@@ -1,5 +1,10 @@
 # Chat
 
+## Run project with docker
+
+1. run gradle task **buildForDocker**
+2. `cd docker; docker-compose up`
+
 ## Setting up mongo
 
 ### Get mongo image
@@ -74,3 +79,48 @@ Remove container (if you need run mongo (name=mon) container with another argume
     
     `db.collectionName.count()`
     
+## Setting up docker
+
+### Run and create mongo docker container
+
+`docker run -d --name mon --network host mongo:4.4.1`
+
+### Stop/start mongo container
+
+`docker stop(start) mon`
+
+### Remove all stopped containers
+
+`docker rm $(docker ps -a -q)`
+
+## Using docker-compose
+Docker compose helps to run set of services and
+could comfortably stop and delete unused containers with one command
+
+### Run set of services
+
+`docker-compose up`
+
+### Stop and delete all services
+
+add --volumes if need remove volumes
+
+`docker-compose down (--volumes)`
+
+### See docker elements
+
+`docker system df`
+
+### Remove docker elements
+
+Remove only dangling images, networks, containers
+
+`docker system prune`
+
+Remove dangling and unused images, networks, containers
+
+`docker system prune -a`
+
+Remove dangling and unused images, networks, containers and volumes
+
+`docker system prune -a --volumes`
