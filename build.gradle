@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.indorm1992'
-version = '0.0.1-SNAPSHOT'
+version = ''
 sourceCompatibility = '1.8'
 
 configurations {
@@ -29,11 +29,29 @@ dependencies {
 }
 
 // -parameters добавляется, но десериализация не проходит
-compileJava {
+//compileJava {
 	//options.encoding = 'UTF-8'
 	//options.compilerArgs += ['-parameters']
-	print options.compilerArgs
+	//println options.compilerArgs
+//}
+
+task moveRest(type: Copy, dependsOn: build) {
+	delete "docker/services/rest/chat.jar"
+	from "build/libs/chat.jar"
+	into "docker/services/rest"
 }
+
+task moveNginx(type: Copy) {
+	from "src/main/resources/nginx"
+	into "docker/services/js"
+}
+
+task moveJs(type: Copy) {
+	from "src/main/resources/static"
+	into "docker/services/js/dist"
+}
+
+task buildForDocker(dependsOn: [clean, moveRest, moveJs, moveNginx])
 
 test {
 	useJUnitPlatform()

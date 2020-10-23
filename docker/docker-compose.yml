@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  mongodb:
+    build:
+      context: services/mongodb
+      dockerfile: Dockerfile.development
+    container_name: "mongodb"
+    #ports:
+    #  - "27020:27017"
+    network_mode: "host"
+    #environment:
+      #- POSTGRES_USER=postgres
+      #- POSTGRES_DB=vv
+      #- POSTGRES_PASSWORD=qqq
+    #volumes:
+    #  - "db-data:/var/lib/mongodb/data"
+
+
+  rest:
+    build:
+      context: services/rest
+      dockerfile: Dockerfile.development
+    #environment:
+    #  - PORT=8089
+    #  - SPRING_DATA_MONGO_HOST=mongodb
+    #  - JS_URL=http://localhost
+    image: 'java-chat-and-examples'
+    #ports:
+    #  - 8089:8089
+    network_mode: "host"
+    depends_on:
+      - mongodb
+
+  js:
+    build:
+      context: services/js
+      dockerfile: Dockerfile.development
+    image: 'js-chat'
+    #ports:
+    #  - 80:80
+    network_mode: "host"
+
+# чтобы создать вольюм
+#volumes:
+#  db-data:

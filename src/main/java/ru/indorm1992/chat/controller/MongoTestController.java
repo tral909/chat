@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class MongoTestController {
 	private final MongoTestDao mongoTestDao;

@@ -1,0 +1,6 @@
+FROM nginx:alpine
+#WORKDIR /usr/share/nginx/html
+#COPY dist/ .
+#COPY dist/ /usr/share/nginx/html
+COPY dist/ /etc/nginx/html
+COPY chat-settings.conf /etc/nginx/conf.d/
