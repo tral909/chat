@@ -31,6 +31,12 @@ function connect(event) {
     event.preventDefault();
 }
 
+// TODO реализовать получение 10 последних сообщений и отрисовка их
+// при подключении по web socket через fetch api
+function getLastMsgs(event) {
+    // stompClient.send("/app/chat.getLastMessages", {}, {})
+}
+
 
 function onConnected() {
     // Subscribe to the Public Topic

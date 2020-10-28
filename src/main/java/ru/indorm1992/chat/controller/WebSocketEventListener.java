@@ -1,5 +1,6 @@
 package ru.indorm1992.chat.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -9,16 +10,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import ru.indorm1992.chat.dao.ChatMessageDao;
 import ru.indorm1992.chat.dto.ChatMessageDto;
+import ru.indorm1992.chat.mapper.ChatMessageMapper;
+import ru.indorm1992.chat.model.MessageType;
 
 import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class WebSocketEventListener {
-
-	@Autowired
-	private SimpMessageSendingOperations messagingTemplate;
+	private final SimpMessageSendingOperations messagingTemplate;
+	private final ChatMessageDao               chatMessageDao;
+	private final ChatMessageMapper            chatMessageMapper;
 
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectedEvent event) {
@@ -35,11 +40,12 @@ public class WebSocketEventListener {
 		if (username != null) {
 			log.info("User disconnected: " + username);
 			ChatMessageDto dto = new ChatMessageDto(
-					ChatMessageDto.MessageType.LEAVE,
+					MessageType.LEAVE,
 					null,
 					username
 			);
 			messagingTemplate.convertAndSend("/topic/public", dto);
+			chatMessageDao.save(chatMessageMapper.toModel(dto));
 		}
 	}
 }

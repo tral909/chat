@@ -5,9 +5,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document("test_user")
-public class User {
+@Document("chat_message")
+public class ChatMessage {
 	@Id
 	String id;
-	String name;
+	MessageType type;
+	String content;
+	String sender;
 }
