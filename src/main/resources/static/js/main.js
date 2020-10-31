@@ -29,18 +29,28 @@ function connect(event) {
         stompClient.connect({}, onConnected, onError);
     }
     event.preventDefault();
+
+    showLastMsgs();
 }
 
-// TODO реализовать получение 10 последних сообщений и отрисовка их
-// при подключении по web socket через fetch api
-function getLastMsgs(event) {
-    // stompClient.send("/app/chat.getLastMessages", {}, {})
+// Вернуть данные не получится, async всегда возвращает promise
+//async function showLastMsgs() {
+//    let response = await fetch("last-messages");
+//        let messages = await response.json();
+//        messages.forEach(m => onMessageReceived(m);
+//}
+
+
+function showLastMsgs() {
+    fetch("last-messages")
+        .then(resp => resp.json())
+        .then(msgs => msgs.forEach(m => onMessageReceived(m)))
 }
 
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/topic/public', onMessageReceivedWithParse);
 
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
@@ -72,10 +82,12 @@ function sendMessage(event) {
     event.preventDefault();
 }
 
+function onMessageReceivedWithParse(payload) {
+     var message = JSON.parse(payload.body);
+     onMessageReceived(message);
+}
 
-function onMessageReceived(payload) {
-    var message = JSON.parse(payload.body);
-
+function onMessageReceived(message) {
     var messageElement = document.createElement('li');
 
     if (message.type === 'JOIN') {

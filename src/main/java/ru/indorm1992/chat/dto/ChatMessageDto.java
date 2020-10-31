@@ -1,5 +1,6 @@
 package ru.indorm1992.chat.dto;
 
+import lombok.Builder;
 import lombok.Value;
 import ru.indorm1992.chat.model.MessageType;
 
@@ -11,6 +12,7 @@ public class ChatMessageDto {
 	String content;
 	String sender;
 
+	@Builder
 	@ConstructorProperties({"name", "content", "sender"})
 	public ChatMessageDto(MessageType type,
 						  String content,

@@ -10,4 +10,6 @@ public interface ChatMessageMapper {
 
 	@Mapping(target = "id", ignore = true)
 	ChatMessage toModel(ChatMessageDto dto);
+
+	ChatMessageDto toDto(ChatMessage model);
 }
