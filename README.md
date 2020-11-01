@@ -8,7 +8,7 @@
 ## Setting up mongo
 
 ### Get mongo image
-`$ docker pull mongo`
+`$ docker pull mongo:4.4.1`
 
 ### Install mongo cli
 `$ sudo apt-get install mongodb-clients`
@@ -16,7 +16,7 @@
 ### Run mongo
 For running mongo inside host network (get access from **mongo cli** to running container)
 
-`$ docker run -d --name mon --network host mongo` 
+`$ docker run -d --name mon --network host mongo:4.4.1` 
 
 ### Stop mongo container
 `$ docker stop mon`
